@@ -1,0 +1,1838 @@
+{
+    "dataset_info": {
+        "name": "学校选课管理系统需求基准集",
+        "version": "1.1",
+        "evaluation_metrics": ["明确性(unambiguity)", "可验证性(verifiability)", "一致性(consistency)", "完全性(completeness)"],
+        "requirement_types": ["功能需求", "非功能需求", "约束性需求", "质量需求"]
+    },
+    "requirement_modules": [
+        {
+            "module_name": "学生选课核心模块",
+            "requirements": [
+                {
+                    "req_id": "SCS_001",
+                    "req_description": "系统支持5000-10000人同时在线操作，选课开放瞬间页面响应时间<3秒，无崩溃、卡死、白屏或报错情况",
+                    "req_type": "非功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },  
+                {
+                    "req_id": "SCS_002",
+                    "req_description": "选课开始前允许学生进入等待页面，系统自动随机安排队列顺序处理选课请求，避免同时点击拥堵",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_003",
+                    "req_description": "课程详情页展示教学大纲、考核方式、作业量、教材信息",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_004",
+                    "req_description": "每门课详情页设置往届学生评价区，支持五星评分（总体、收获、工作量、给分）和可选匿名文字评论，评论经后台过滤审核后显示",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_005",
+                    "req_description": "系统根据学生专业和年级，在首页显示培养方案要求的推荐修读课程列表",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_006",
+                    "req_description": "系统实时强制进行选课时间冲突校验，冲突时高亮提示具体与哪门已选课冲突。立即显示冲突的具体课程名称、星期、节次及教室",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true,
+                    "merged_from": ["SCS_032"]
+                },
+                {
+                    "req_id": "SCS_007",
+                    "req_description": "时间冲突时，系统根据学生专业培养方案，推荐相同时段、相同类别且有余量的替代课程",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_008",
+                    "req_description": "系统检测课程时间与实习等校外安排的冲突，以及跨校区教室距离过远导致的时间冲突",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_009",
+                    "req_description": "选课页面实时更新并显示课程人数和真实剩余名额，无刷新后名额突变情况。在学生点击选课后，系统应锁定该名额30秒供确认，期间其他用户不可见该名额",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true,
+                    "merged_from": ["SCS_036"]
+                },
+                {
+                    "req_id": "SCS_010",
+                    "req_description": "课程容量满额后支持学生登记候补排队，系统按先到先得顺序自动排队。当有学生退选课程且存在候补队列时，系统自动将名额分配给队列首位学生，并通过短信或微信推送通知其已成功选入课程。系统应在学生加入候补队列后，实时显示其当前排队位置。候补成功通知应在名额释放后5分钟内送达用户",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true,
+                    "merged_from": ["SCS_033", "SCS_034", "SCS_047", "SCS_048", "SCS_049"]
+                },
+                {
+                    "req_id": "SCS_011",
+                    "req_description": "支持学生一对一课程交换功能，双方确认且满足规则后，系统同步完成交换，避免单方面退课风险。支持换课功能，允许学生选定一门已选课程和一门意向课程，在确认无冲突且有名额的前提下，以一个原子事务（2秒内完成）同步执行退选与遴选操作，失败时保持原状态不变",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true,
+                    "merged_from": ["SCS_031"]
+                },
+                {
+                    "req_id": "SCS_012",
+                    "req_description": "学生退课后，名额实时释放，支持实时换课操作",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_013",
+                    "req_description": "系统提供预选清单、收藏夹、购物车功能，支持学生提前规划课程。学生可将意向课程加入暂存清单，并在正式选课时快速提交。系统应提供个人课表规划工具，允许学生将意向课程加入暂存清单，并生成可视化时间轴视图，自动高亮显示时间冲突",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true,
+                    "merged_from": ["SCS_028", "SCS_051"]
+                },
+                {
+                    "req_id": "SCS_014",
+                    "req_description": "选课失败时，系统明确提示失败原因（名额已满、时间冲突、先修课不符、学分超限、权限不足等）。选课、退课、换课操作后，系统实时反馈操作是否成功，成功时提示成功，失败时提示具体原因",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true,
+                    "merged_from": ["SCS_053"]
+                },
+                {
+                    "req_id": "SCS_015",
+                    "req_description": "选课、退课、换课操作后，系统实时反馈操作是否成功",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_016",
+                    "req_description": "学生可查看个人全学期选课历史记录",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_017",
+                    "req_description": "选课页面提供清晰的已选课程与待选课程分区，区分课程代码避免选错",
+                    "req_type": "质量需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_018",
+                    "req_description": "个人课表支持导出为.ics标准日历文件，一键同步到手机或电脑，支持订阅课表日历链接",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_019",
+                    "req_description": "个人课表支持日/周/月视图切换，支持自定义颜色区分必修、选修等课程类型",
+                    "req_type": "质量需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_020",
+                    "req_description": "系统提供个人选课进度条，实时显示已修学分与毕业要求的对比，自动提示未选必修课",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_021",
+                    "req_description": "学生退课时，系统自动预警本次操作是否会导致总学分低于毕业要求",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_022",
+                    "req_description": "系统明确标注可替代培养方案中已修课程要求的课程列表",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_023",
+                    "req_description": "公共选修课列表支持按艺术类、科技类等兴趣标签分类筛选",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_024",
+                    "req_description": "选课时，系统直观标注课程对专业、年级的限制及先修要求",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_025",
+                    "req_description": "选课期间提供实时在线客服和常见问题弹窗",
+                    "req_type": "质量需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_026",
+                    "req_description": "支持学生为心仪课程设置开课提醒",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_027",
+                    "req_description": "系统应在选课高峰期（如预选、抢课阶段）为超出系统瞬时处理能力的用户提供实时排队提示，明确显示其当前队列位置与预计等待时间",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SCS_029",
+                    "req_description": "系统应能根据学生设定的偏好（如课程紧凑优先），提供一键化的无冲突课表推荐",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SCS_030",
+                    "req_description": "当学生选择的课程存在专业、先修课等限制时，系统应提供在线申请例外通道，允许学生提交理由与证明，并自动流转至开课院系审批",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SCS_035",
+                    "req_description": "系统应在个人主页显著位置显示关键时间节点倒计时（如距离退课截止还有2天），并支持通过微信或短信推送提醒",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SCS_037",
+                    "req_description": "系统应支持辅修/双学位学生提交课程时间冲突豁免申请，经辅修院系审批通过后允许带冲突选课，并在成绩单中标注经批准冲突修读",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SCS_038",
+                    "req_description": "学生选课资格应基于其所属专业的培养方案进行校验，未完成指定先修课程者不得选报后续课程",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SCS_039",
+                    "req_description": "课程搜索与选课操作流程应控制在3步以内，确保新手学生可在5分钟内完成一门课的选择",
+                    "req_type": "质量需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SCS_040",
+                    "req_description": "系统应提供移动端适配的界面或微信小程序，确保核心操作（如选课、查课表）在主流移动浏览器上流畅运行，页面加载时间应小于3秒，触控响应延迟应低于100毫秒",
+                    "req_type": "质量需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SCS_041",
+                    "req_description": "系统应提供辅导员视图，集中展示所负责学生的实时课表、学业预警状态及待审批的特殊选课申请列表",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SCS_042",
+                    "req_description": "系统应内置线上特殊学业状态学生选课申请流程（如休复学学生），由辅导员发起，经系主任、教务处线上审批后，系统自动为学生解锁选课限制或代为选课",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SCS_043",
+                    "req_description": "系统应基于学生所属专业的培养方案，动态生成个性化推荐选课路径，并在学生偏离路径时弹出警示提示",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SCS_044",
+                    "req_description": "系统应支持课程可见性按学科门类、学院或自定义标签（如面向全校开放）进行设置，而非仅限于专业硬性过滤",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SCS_045",
+                    "req_description": "辅修学生在选修辅修计划内课程时，应享有独立名额池，不与主修生竞争",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SCS_046",
+                    "req_description": "跨专业选课若涉及先修要求，系统应允许院系设置等效课程映射关系（如高等数学A等效于微积分I）",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SCS_052",
+                    "req_description": "系统应支持多轮次选课机制，并为热门课程提供抽签或排队功能",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                }
+            ]
+        },
+        {
+            "module_name": "教师授课管理模块",
+            "requirements": [
+                {
+                    "req_id": "TM_001",
+                    "req_description": "教师可查看所授课程的历史选课人数趋势和学生评价趋势",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_002",
+                    "req_description": "课程容量满员后自动关闭选课通道，支持教师根据教室容量在线申请扩容",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_003",
+                    "req_description": "支持教师线上申请临时增开小班课或研讨班，简化申请流程",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_004",
+                    "req_description": "系统提供官方课程沟通空间，支持教师在线发布课程大纲、资料、作业和公告",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_005",
+                    "req_description": "学生中途退课后，教师端名单实时更新并灰显退课学生，确保考勤和作业管理准确",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_006",
+                    "req_description": "教师可查看同一课程其他教师的开课情况",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_007",
+                    "req_description": "支持教师线上提交调课、停课、补课申请，可查看审批进度；调课获批后，系统自动更新学生课表并强提醒",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_008",
+                    "req_description": "教师可查看课程候补学生队列，有名额时一键批准候补学生加入",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_009",
+                    "req_description": "学生名单可直接作为成绩录入底表，支持批量导入Excel或粘贴数据，自动计算加权总分和排名",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_010",
+                    "req_description": "成绩提交后48小时内（教务处最终锁定前），允许教师主动撤回并修订成绩",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_011",
+                    "req_description": "成绩录入界面支持设置分数区间限制（如禁止输入>100分），具备保存草稿功能",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_012",
+                    "req_description": "成绩提交后，系统支持教师一键通知学生查看",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_013",
+                    "req_description": "教师可查看选课学生的已修课程、成绩背景及先修课情况",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_014",
+                    "req_description": "支持教师在线给个别学生发送通知或建议",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_015",
+                    "req_description": "系统支持教师在线发起和收集课程教学评估问卷",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_016",
+                    "req_description": "系统集成基础课堂互动功能：基于名单的二维码签到、发布选择题测验（自动计分）、发布问卷，数据可导出",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_017",
+                    "req_description": "系统提供课堂考勤登记快捷入口，支持与打卡系统对接导出记录",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_018",
+                    "req_description": "支持教师为助教分配成绩录入、考勤管理等权限",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_019",
+                    "req_description": "课程结束后，教师可一键归档课程数据（名单、成绩、资料）",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_020",
+                    "req_description": "系统自动为教师生成教学工作量报表",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_021",
+                    "req_description": "开课申请流程支持在线填写，避免重复信息录入，教师可预览学生端页面",
+                    "req_type": "质量需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_022",
+                    "req_description": "系统应在选课调整期结束后，自动锁定最终教学班学生名单，并为教师提供实时查看与导出功能。特殊情况下，需经教务管理员授权方可调整",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_023",
+                    "req_description": "对于容量已满的课程，系统应为教师后台提供清晰的等待列表，展示候补学生及优先级。教师应能手动扩容，系统随后自动按序通知队列中的学生",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_024",
+                    "req_description": "系统应支持教师下载预填学生名单的成绩模板（Excel格式），并在本地填写后批量上传（支持200人以上班级），系统自动校验格式、计算总评并保存",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_025",
+                    "req_description": "系统应为每门课程提供持久的课程空间，用于按学期归档教学资料",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_026",
+                    "req_description": "当教师再次开设同名课程时，应能选择一键复制往期课程的资料库框架",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_027",
+                    "req_description": "成绩管理应支持录入中、已提交待审核、已发布三种状态。在已发布前，教师可修改或撤回；发布后，任何修改需通过线上成绩更正申请流程（课程负责人、院系、教务处三级审批）完成",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_028",
+                    "req_description": "系统应根据教室真实容量自动限制课程最大人数，禁止超限选课",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_029",
+                    "req_description": "系统应提供一键导出当前学期选课学生完整名单（含学号、姓名、专业、班级）的功能",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_030",
+                    "req_description": "系统应支持教师在线录入平时分、期中、期末成绩，并自动按预设权重计算总评成绩",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_031",
+                    "req_description": "对于选课截止后申请加课的学生，系统仅在其获得教务处审批后才将其加入课程名单，并自动通知任课教师",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_032",
+                    "req_description": "课程开课两周后，系统默认关闭普通加课通道，仅保留特殊审批入口",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_033",
+                    "req_description": "成绩录入界面应支持批量导入（Excel）与逐项修改，且修改操作需二次确认，防止误操作",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "TM_034",
+                    "req_description": "系统应允许教师提交课程的学生筛选建议名单",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                }
+            ]
+        },
+        {
+            "module_name": "教务管理模块",
+            "requirements": [
+                {
+                    "req_id": "AM_001",
+                    "req_description": "系统支持批量审核开课申请，自动检查开课信息完整性",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_002",
+                    "req_description": "提供智能排课辅助系统，自动检测时间、教室硬冲突，支持设置教师时间偏好、教室类型等约束条件并生成可选排课方案",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_003",
+                    "req_description": "系统支持一键生成全院/全校的开课计划总表或课表",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_004",
+                    "req_description": "处理教师调课申请时，系统快速判断是否与现有安排冲突",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_005",
+                    "req_description": "排课系统与选课系统数据实时同步，避免教室资源冲突或课程信息不一致",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_006",
+                    "req_description": "学生跨专业选课、学分替代、免修、超学分等申请全部线上化、标准化，审批流程可视化可追踪",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_007",
+                    "req_description": "成绩修改申请支持线上提交，无需纸质签字流程",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_008",
+                    "req_description": "研究生导师审批超时，教务管理员可代为紧急处理选课申请",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_009",
+                    "req_description": "系统统一管理重修、缓考、补考等学生名单",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_010",
+                    "req_description": "课程停开、合并后，系统自动通知学生并推荐替代课程",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_011",
+                    "req_description": "系统提供各课程选课人数热力图，支持教务人员动态调整课程容量",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_012",
+                    "req_description": "支持快速统计退课率、候补队列长度等选课动态数据",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_013",
+                    "req_description": "毕业资格审查自动化，系统自动匹配培养方案，生成学业进度预警和合规性报告",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_014",
+                    "req_description": "支持按教师、课程、班级等多维度统计教学工作量，预置报表模板",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_015",
+                    "req_description": "选课数据支持按年级、专业等多维度导出和可视化分析，生成图表",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_016",
+                    "req_description": "系统自动生成未选课学生、学分不足学生等预警名单",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_017",
+                    "req_description": "选课规则（学分上限、先修课限制等）支持灵活配置，调整后立即生效",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_018",
+                    "req_description": "支持为不同课程设置不同名额释放规则（本专业优先、高年级优先）和选课逻辑（权重抽签、先到先得）",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_019",
+                    "req_description": "建立统一课程库和培养方案版本库，培养方案更新时选课系统同步更新校验规则",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_020",
+                    "req_description": "支持批量处理学生选课数据（如为转专业学生统一补选必修课）",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_021",
+                    "req_description": "系统记录所有用户关键操作日志（选课、退课、成绩录入、权限变更），长期保留至少3年，供审计追溯",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_022",
+                    "req_description": "提供线上页面统一收集教师时间偏好和授课需求，以日历视图汇总",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_023",
+                    "req_description": "新开课或调整课程属性的审核流程线上化（专业负责人->系主任），全程留痕",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_024",
+                    "req_description": "为国际学生设置独立于本地学生的选课开放时段",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_025",
+                    "req_description": "选课逻辑中强制验证学生是否通过EMI课程等相关语言认证",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_026",
+                    "req_description": "系统从学校主数据平台同步基础数据，使用统一编码",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_027",
+                    "req_description": "为旁听生、进修生提供独立管理界面，配置专属选课规则和成绩记录方式",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_028",
+                    "req_description": "系统应内置课程替代规则引擎，允许管理员预设课程映射关系。学生提交申请后，系统能自动匹配并给出替代建议，管理员进行最终确认",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_029",
+                    "req_description": "系统应提供智能排课辅助工具，能依据教师时间、教室类型、校区分布等约束，自动生成3-5个无硬冲突（教师、教室时间重叠）且软冲突（同专业学生跨校区课程间隔<60分钟）最少的初步方案，并高亮显示所有冲突",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_030",
+                    "req_description": "系统应提供学业进度动态追踪仪表盘，每日定时计算学生学分完成情况，并对学分不足、核心课未修等情况自动生成预警，向学生、辅导员及管理员推送，条件不满足时自动解除",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_031",
+                    "req_description": "系统应设立统一的帮助中心门户，集成角色化指引、FAQ搜索、关键业务状态（如选课阶段、审核进度）查询与推送功能",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_032",
+                    "req_description": "当操作停开课程时，系统应自动通知已选课学生，并优先将其加入其预设的备选课程等待队列最前列，或提供推荐课程列表供其一键补选",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_033",
+                    "req_description": "系统必须与现有的综合教务管理系统（学籍模块）、财务收费系统、学工系统实现数据双向实时或准实时同步",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_034",
+                    "req_description": "系统应提供结构化的课程替代与学分认定在线申请-审批工作流，自动关联学生已修课程与培养方案，并全程追踪审批状态",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_035",
+                    "req_description": "系统应集成全校教室资源池，在教师提交开课计划时实时校验时间+地点是否已被占用，若冲突则禁止提交",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_036",
+                    "req_description": "系统应按专业、年级自动生成学业进度报告，标红未完成核心必修课或总学分不足的学生，并支持一键导出预警名单",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_037",
+                    "req_description": "所有课程的开课信息（课程代码、学分、类型）必须与官方培养方案一致，否则不得进入选课池",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_038",
+                    "req_description": "系统应支持每学期处理不少于10万条选课记录，数据一致性误差率低于0.001%",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_039",
+                    "req_description": "审批流程应支持多级审核、意见填写与历史版本回溯，确保过程透明可审计",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_040",
+                    "req_description": "系统应提供院系课程管理门户，用于在线审核教师提交的新开课/课程更新申请，审核通过后一键提交至教务处，并同步至选课系统",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_041",
+                    "req_description": "系统应授权本院系教学秘书，对其负责的专业课程拥有选课名单微调（如为转专业学生添加名额）及按导师生成分组名单的权限",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_042",
+                    "req_description": "系统应允许教学秘书临时授权特定学生绕过先修课限制或时间冲突限制加课，并自动记录授权原因与操作人",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_043",
+                    "req_description": "系统应支持在开设课程时分别设置主修保留名额和辅修/跨专业开放名额，并自动分流选课请求",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_044",
+                    "req_description": "辅修课程的选课权限应严格限定于已注册该辅修项目的学生",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_045",
+                    "req_description": "异常处理操作（如强制加课）应提供简洁的表单界面，5分钟内可完成单次授权",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "AM_046",
+                    "req_description": "系统应允许教务管理员对课程申请进行审核、排课（协调教室与时间），并最终发布或取消课程",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "AM_047",
+                    "req_description": "系统应能够根据预设规则（如高年级优先、本专业优先）或手动设置，处理选课优先级或进行抽签，以应对课程名额超额申请的情况",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "AM_048",
+                    "req_description": "系统应提供处理异常选课申请的人工通道",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "AM_049",
+                    "req_description": "系统应在选课高峰期支持高并发访问，并采用排队或抽签机制处理超额选课请求（如热门课程）",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "AM_050",
+                    "req_description": "系统应支持教务处管理员手动干预个别学生的选课结果（如因特殊原因强制加课或退课）",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                }
+            ]
+        },
+        {
+            "module_name": "研究生管理模块",
+            "requirements": [
+                {
+                    "req_id": "GM_001",
+                    "req_description": "研究生课程信息公开（是否计入学分、授课语言等）",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "GM_002",
+                    "req_description": "选跨院系课程时，系统明确提示是否需要对方院系批准",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "GM_003",
+                    "req_description": "支持研究生在线提交个人培养计划并与选课系统关联",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "GM_004",
+                    "req_description": "系统提示研究生必修学分中核心课、研讨课等各类别的完成情况",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "GM_005",
+                    "req_description": "导师可设置代理审批人处理学生选课申请",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "GM_006",
+                    "req_description": "系统提供研究生学术活动、讲座的选课或登记入口",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "GM_007",
+                    "req_description": "研究生重修或补选课程时，简化导师审批流程，无需重复走完整流程",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "GM_008",
+                    "req_description": "系统标注课程是否对博士生、硕士生共享开设，以及是否计入学位学分",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "GM_009",
+                    "req_description": "选课列表标注仅对特定实验室或课题组开放的课程",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "GM_010",
+                    "req_description": "研究生可上传详细选课理由或学习计划供导师参考",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "GM_011",
+                    "req_description": "选课结果及时公布，避免影响研究生实验或科研安排",
+                    "req_type": "质量需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "GM_012",
+                    "req_description": "选课系统与研究生研究方向绑定，优先推荐相关专业选修课",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "GM_013",
+                    "req_description": "研究生选课需导师审批，系统提供审批进度跟踪和催办提醒功能",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "GM_014",
+                    "req_description": "研究生提交选课计划后，可查看导师批注意见，被拒绝时支持在线追问具体原因",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "GM_015",
+                    "req_description": "导师审批同意后，无需研究生线下提交纸质表格给院系",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                }
+            ]
+        },
+        {
+            "module_name": "系统集成与安全模块",
+            "requirements": [
+                {
+                    "req_id": "SS_001",
+                    "req_description": "系统具备高可用架构，无单点故障，支持负载均衡和自动扩容，服务器故障时可快速切换",
+                    "req_type": "非功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_002",
+                    "req_description": "计划内系统维护需提前公告，系统整体可用性目标达到99.9%以上",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_003",
+                    "req_description": "用户密码加密存储，禁止明文保存",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_004",
+                    "req_description": "所有数据传输采用HTTPS加密",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_005",
+                    "req_description": "系统具备防攻击机制，抵御SQL注入、XSS攻击、暴力破解等常见网络攻击",
+                    "req_type": "非功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_006",
+                    "req_description": "重要操作（删除课程、批量修改成绩等）需二次确认或附加验证",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_007",
+                    "req_description": "系统具备防刷机制，限制同一用户/IP的请求频率，防止机器人抢课",
+                    "req_type": "非功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_008",
+                    "req_description": "建立完善的数据库备份机制，每日全量备份+增量备份，支持数据恢复",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_009",
+                    "req_description": "制定完善的灾难恢复方案，确保系统故障后快速恢复数据和服务",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_010",
+                    "req_description": "系统提供实时健康监控与告警功能，监控服务器资源、API响应时间、数据库负载等指标",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_011",
+                    "req_description": "系统自动清理无效会话、临时文件",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_012",
+                    "req_description": "系统支持主流电脑和手机浏览器访问，界面响应式设计，无乱码",
+                    "req_type": "质量需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_013",
+                    "req_description": "与校园统一身份认证系统（如CAS）无缝对接，实现单点登录",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_014",
+                    "req_description": "提供API接口，支持与财务系统、打卡系统等第三方系统集成",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_015",
+                    "req_description": "支持批量导入学生、教师、课程等基础数据",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_016",
+                    "req_description": "用户长时间不操作自动退出登录",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_017",
+                    "req_description": "忘记密码可通过绑定手机或邮箱找回，支持验证码验证",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_018",
+                    "req_description": "不同角色（学生、教师、教务、管理员）的权限严格分离",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_019",
+                    "req_description": "成绩等关键数据修改必须通过申请审批流程，禁止直接修改数据库",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_020",
+                    "req_description": "支持数据导出（课表、成绩单、名单等），并可添加官方水印",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_021",
+                    "req_description": "教师可设置课件的访问权限（仅在线预览、禁止下载）及有效期",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_022",
+                    "req_description": "排课系统考虑校区因素，根据校区间通行时间设置最小课程间隔，给出警告或自动规避冲突",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_023",
+                    "req_description": "与Moodle等平台深度集成，自动创建课程站点、同步名单，支持成绩一键导回",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_024",
+                    "req_description": "后台支持实时监控系统关键指标，可设置队列参数、一键启用排队模式",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_025",
+                    "req_description": "提供完整的系统架构图、API接口文档和故障排查手册",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_026",
+                    "req_description": "系统后台维护收费规则，根据学生选课记录自动生成待收费明细",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_027",
+                    "req_description": "自动生成符合财务系统要求的标准化数据文件，支持自动推送",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_028",
+                    "req_description": "系统在选课开放高峰期，应支持15,000名用户并发在线操作",
+                    "req_type": "非功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_029",
+                    "req_description": "核心交易（提交选课、退课）在95%的情况下响应时间应低于2秒，查询类操作响应时间应低于1秒",
+                    "req_type": "非功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_030",
+                    "req_description": "每学期选课期间，系统核心服务可用性应不低于99.5%",
+                    "req_type": "非功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_031",
+                    "req_description": "支持灰度发布与快速回滚",
+                    "req_type": "非功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_032",
+                    "req_description": "系统必须通过国家网络安全等级保护（二级）测评",
+                    "req_type": "非功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_033",
+                    "req_description": "用户密码、成绩等敏感数据在存储和传输过程中必须加密",
+                    "req_type": "非功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_034",
+                    "req_description": "当学校调整核心学业政策（如新增课程类别）时，系统相关规则的调整工作量应能控制在2人/月内通过配置或有限开发完成",
+                    "req_type": "质量需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_035",
+                    "req_description": "系统应提供用于性能压测的模拟选课工具，能够模拟大量虚拟用户执行标准选课流程",
+                    "req_type": "质量需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_036",
+                    "req_description": "系统必须部署于学校私有云，使用MySQL 8.0及以上数据库",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_037",
+                    "req_description": "前端必须兼容Chrome 80+、Firefox 75+、Edge 88+及主流移动端浏览器",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_038",
+                    "req_description": "系统必须严格遵循《个人信息保护法》，处理敏感信息前需获单独同意，并提供用户数据查询、导出、删除接口",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_039",
+                    "req_description": "用户界面需符合学校视觉识别系统（VI）规范，并支持中文、英文双语界面，遵循WCAG 2.1 AA级可访问性标准",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_040",
+                    "req_description": "系统应提供集成的监控仪表盘，实时展示在线用户数、API响应时间、错误率等关键指标，并支持阈值告警",
+                    "req_type": "非功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_041",
+                    "req_description": "系统管理后台应支持一键数据备份与恢复，备份策略为：每日全备保留7天，每周全备保留4周，每月全备保留12个月。核心数据恢复时间目标（RTO）不超4小时，恢复点目标（RPO）不超1小时",
+                    "req_type": "非功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_042",
+                    "req_description": "系统所有关键操作必须生成结构化审计日志（操作人、时间、对象、原值、新值），日志至少保留10年",
+                    "req_type": "非功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_043",
+                    "req_description": "系统应内置实时性能监控面板，显示当前并发用户数、平均响应延迟、数据库连接池使用率及错误率",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_044",
+                    "req_description": "系统应支持在高并发场景下自动启用排队机制（如虚拟等待队列），而非直接返回502错误",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_045",
+                    "req_description": "所有关键业务规则（如选课开始/结束时间、退课窗口、补选周期）应可通过管理后台动态配置，无需重启服务或部署代码",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_046",
+                    "req_description": "系统应对所有关键操作（如删除课程、强制退选、修改学分、调整名额）记录操作人、操作时间、IP地址及变更前后的数据值",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_047",
+                    "req_description": "系统应支持7×24小时运行，年度计划外停机时间不超过4小时",
+                    "req_type": "非功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                     "consistent": true
+                     
+                },
+                {
+                    "req_id": "SS_048",
+                    "req_description": "操作日志应集中存储，支持按操作人、时间范围、操作类型等条件检索，响应时间不超过3秒",
+                    "req_type": "非功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SS_049",
+                    "req_description": "系统必须部署在符合等保二级要求的校园私有云环境中，禁止敏感数据外传",
+                    "req_type": "约束性需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SS_050",
+                    "req_description": "故障发生时，系统应提供明确的错误码与自助排查指引，便于快速定位问题",
+                    "req_type": "质量需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SS_051",
+                    "req_description": "对于收费课程（如重修、辅修），系统应根据预设的课程类别与学分单价自动计算费用并生成订单，引导学生至支付平台",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SS_052",
+                    "req_description": "支付状态（成功/失败/退款）需通过接口实时回调至选课系统，以同步更新选课状态",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SS_053",
+                    "req_description": "系统应提供清晰的选课-缴费对账报表，供财务处核对",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SS_054",
+                    "req_description": "系统应在课程信息管理模块提供课程资源清单字段，允许教师录入ISBN、电子资源链接等信息，并定期通过接口将该清单同步至图书馆系统",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SS_055",
+                    "req_description": "系统除预置报表外，应提供安全的数据仓库查询接口或允许导出符合规范的匿名化全量数据快照，以供高级分析使用",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },{
+                    "req_id": "SS_056",
+                    "req_description": "系统应在每学期选课结束后，自动生成结构化数据接口，供成绩录入系统和学籍管理系统调用课程-学生关联数据",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "SS_057",
+                    "req_description": "系统应提供通知功能，向用户发送选课结果、课程变动、成绩发布等站内或邮件通知",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                }
+            ]
+        },
+        {
+            "module_name": "成绩管理模块",
+            "requirements": [
+                {
+                    "req_id": "CM_001",
+                    "req_description": "学生查成绩时，可查看分数构成（平时分、期末分等）",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "CM_002",
+                    "req_description": "学生查成绩时，可查看全班平均分、最高分、成绩分布等统计信息",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "CM_003",
+                    "req_description": "成绩发布后，通过微信/短信或应用内消息提醒学生查看",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "CM_004",
+                    "req_description": "成绩页面显示学分绩点计算说明，支持学生查看GPA和大致排名",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "CM_005",
+                    "req_description": "支持学生在线申请缓考或成绩复议",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "CM_006",
+                    "req_description": "支持学生批量打印所有学期成绩单",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "CM_007",
+                    "req_description": "系统提供重修报名入口，清晰展示各学期重修课程开设情况",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                },
+                {
+                    "req_id": "CM_008",
+                    "req_description": "支持查询同一门课程在不同学期的开设情况",
+                    "req_type": "功能需求",
+                    "unambiguous": true,
+                    "verifiable": true,
+                    "consistent": true
+                }
+            ]
+        }
+    ]
+}
